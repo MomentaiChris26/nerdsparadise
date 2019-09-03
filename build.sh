@@ -7,3 +7,4 @@ cp ./app.rb ./dist
 gem install colorize 
 gem install tty-prompt
 gem install tty-font
+gem install terminal-table
