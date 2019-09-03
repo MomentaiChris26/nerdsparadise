@@ -1,14 +1,15 @@
-require_relative 'modules.rb'
+require_relative 'module.rb'
 require_relative 'class.rb'
-require 'tty-prompt'
-require 'tty-box'
 prompt = TTY::Prompt.new
+font = TTY::Font.new(:doom)
+
+puts font.write("NERDS PARADISE")
 
 games = []
 
 choice = 0
 loop do
-choices = {'Add game' => 1,'Search games' => 2,'search game' => 3,'Edit games' => 4,'Quit application' => 5}
+choices = {'Add game' => 1,'Search games' => 2,'Edit game' => 3,'Delete game' => 4,'Quit application' => 5}
 choice = prompt.select('Make your selection',choices)
 p choice
 case choice

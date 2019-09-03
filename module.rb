@@ -1,3 +1,9 @@
+require 'tty-prompt'
+require 'tty-box'
+require 'tty-font'
+
+
+
 # Adds methods for the menu selection in the main menu
 module Selection
     def self.add_new_game(prompt,game_array)
@@ -19,6 +25,5 @@ module Selection
         # system 'clear'
         p "#{name} has been added to your database!"
     end
-
 
 end
