@@ -26,30 +26,32 @@ module Selection
 
   def self.search_games(game_array)
     prompt = TTY::Prompt.new
-    choices = { 'List all games' => 1, 'Search by name' => 2, 'Search by genre' => 3, 'Return to main menu' => 4 }
+    choices = { 'List all games' => 1, 'Search by attribute' => 2, 'Return to main menu' => 3 }
     choice = prompt.select('Make your selection', choices)
     case choice
     when 1 then Database.display_all_games(game_array)
     when 2 then Database.search_by(game_array)
-    when 3 then puts 'test'
-    when 4 then return
+    when 3 then return
     end
   end
 
-  def self.all_games_box(games)
+  def self.searched_result(games)
     font = TTY::Font.new(:doom)
     rows = []
     table = Terminal::Table.new rows: rows do |row|
-        row.title = font.write('ALL GAMES')
+        row.title = font.write('GAMES')
       row.headings = 'Title', 'Genre', 'Platform', 'Completed?'
       games.each do |data|
         row << data
       end
     end
-
     table.style = { width: 100, padding_left: 3, border_x: '=', border_i: 'x' }
-
     puts table
   end
-  
+
+  def self.search_store(game,all_games)
+    status = game.status == true ? 'YES' : 'NO'
+    indvidual_game_data = [game.title, game.genre, game.platform, status]
+    all_games << indvidual_game_data
+  end
 end

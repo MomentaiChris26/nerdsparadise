@@ -22,7 +22,7 @@ def main_menu(prompt,stored_games)
     when 1 then Selection.add_game(stored_games)
     when 2 then Selection.search_games(stored_games)
     when 3 then Database.edit_search_title(stored_games)
-    when 4 then Database.search_by(stored_games)
+    when 4 then puts "test"
     when 5 then abort
     end
     end

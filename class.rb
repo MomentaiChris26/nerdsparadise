@@ -20,15 +20,15 @@ class Database
     else
       all_games = []
       game_array.each do |game|
-        status = game.status == true ? 'YES' : 'NO'
+        status = game.status == true ? 'YES'.colorize(:green) : 'NO'.colorize(:red)
         indvidual_game_data = [game.title, game.genre, game.platform, status]
         all_games << indvidual_game_data
       end
       system 'clear'
-      Selection.all_games_box(all_games)
+      Selection.searched_result(all_games)
     end
   end
-  def self.edit_search_title(games)
+  def self.edit_title(games)
     puts "Which game would you like to edit?"
     searched = gets.chomp
     games.each do |game|
@@ -45,16 +45,53 @@ class Database
       puts "There are no games in your database".colorize(:red)
       return
     else
+      puts "what attribute of the data would you like to search for?"
+      prompt = TTY::Prompt.new
+      choices = { 'Title' => 1, 'Genre' => 2, 'Platform' => 3, 'Completion status' => 4 }
+      choice = prompt.select('Make your selection', choices)
+      all_games = []
+      case choice
+      when 1
         puts "what game are you looking for?"
         searched = gets.chomp
-        # games.each { |game| puts game.title}
-        games.each do |game|
-                if game.title == searched
-                    edit_game(game)
-                    return
+      when 2
+        choices_genre = %w[Action Adventure Beat-em-up Fighting Shooter Simulator Strategy Role-playing Others]
+        searched = prompt.select('Select a genre?', choices_genre)
+      when 3
+        choices_platform = %w[Xbox PlayStation Switch PC]
+        searched = prompt.select('Select a platform?', choices_platform)
+      when 4
+        searched = prompt.select('Search by Completion Status') do |menu|
+          menu.choice 'Completed', true
+          menu.choice 'Not completed', false
+        end
+      end
+      games.each do |game|
+                case choice
+                when 1
+                  if game.title == searched
+                    Selection.search_store(game,all_games)
+                    return Selection.searched_result(all_games)
+                  end
+                when 2
+                  if game.genre == searched
+                    Selection.search_store(game,all_games)
+                  end
+                when 3
+                  if game.platform == searched
+                    Selection.search_store(game,all_games)
+                  end
+                when 4
+                  if game.status == searched
+                    Selection.search_store(game,all_games)
+                  end
                 end
             end
-            puts "game not found!".colorize(:red)
+            if all_games.empty?
+              puts "No results found!".colorize(:red)
+            else
+            Selection.searched_result(all_games)
+            end
     end
   end
 
