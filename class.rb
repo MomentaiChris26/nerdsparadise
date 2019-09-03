@@ -41,19 +41,24 @@ class Database
   end
 
   def self.search_by(games)
-    no_games(games)
+    if games.empty?
+      puts "There are no games in your database".colorize(:red)
+      return
+    else
         puts "what game are you looking for?"
         searched = gets.chomp
+        # games.each { |game| puts game.title}
         games.each do |game|
                 if game.title == searched
-                    edit_game(games)
-                    return 
+                    edit_game(game)
+                    return
                 end
             end
             puts "game not found!".colorize(:red)
     end
+  end
 
-  def self.edit_game(games)
-    puts "test"
+  def self.edit_game(game)
+    puts game
     end
 end

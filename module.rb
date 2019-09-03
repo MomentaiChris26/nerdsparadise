@@ -51,11 +51,5 @@ module Selection
 
     puts table
   end
-
-  def no_games(games)
-    if games.empty? 
-        puts "There are no games in your database".colorize(:red)
-    end
-  end
   
 end
