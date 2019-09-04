@@ -95,10 +95,10 @@ module Selection
                          'Genre' => 2,
                          'Platform' => 3,
                          'Completion Status' => 4 }
-    TTY::Prompt.new.select('which attribute would you like to edit?', editable_choices)
+    prompt.select('which attribute would you like to edit?', editable_choices)
   end
 
   def self.confirm_changes(text)
-    TTY::Prompt.new.select(text, %w[Yes No])
+    prompt.select(text, %w[Yes No])
   end
 end
