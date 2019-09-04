@@ -8,3 +8,4 @@ gem install colorize
 gem install tty-prompt
 gem install tty-font
 gem install terminal-table
+gem install tty-spinner

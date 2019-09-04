@@ -5,11 +5,25 @@ require 'tty-box'
 require 'tty-font'
 require 'colorize'
 require 'terminal-table'
+require 'tty-spinner'
 
 # Adds methods for the menu selection in the main menu
 module Selection
+  def self.no_game
+    puts '------------------------------------------------------------'.colorize(:red)
+    puts 'No games in the database!'.colorize(:red)
+    puts '------------------------------------------------------------'.colorize(:red)
+  end
+
   def self.prompt
     TTY::Prompt.new
+  end
+
+  def self.spinner(text, stop_text)
+    spinner = TTY::Spinner.new("[:spinner] #{text}.......", format: :bouncing_ball)
+    spinner.auto_spin # Automatic animation with default interval
+    sleep(1.5) # Perform task
+    spinner.stop(stop_text) # Stop animation
   end
 
   def self.add_game(games)
@@ -95,7 +109,8 @@ module Selection
     editable_choices = { 'Title' => 1,
                          'Genre' => 2,
                          'Platform' => 3,
-                         'Completion Status' => 4 }
+                         'Completion Status' => 4,
+                         'Return to main menu' => 5 }
     prompt.select('which attribute would you like to edit?', editable_choices)
   end
 
@@ -105,10 +120,12 @@ module Selection
 
   def self.random_selection(games)
     system 'clear'
+    spinner('Looking for a game to play', 'Done!')
     if games.empty?
-      puts "------------------------------------------------------------".colorize(:red) 
+      system 'clear'
+      puts '------------------------------------------------------------'.colorize(:red)
       puts 'No games in the database!'.colorize(:red)
-      puts "------------------------------------------------------------".colorize(:red) 
+      puts '------------------------------------------------------------'.colorize(:red)
       return
     else
       all_games = []
@@ -120,43 +137,143 @@ module Selection
           indvidual_game_data = game.title
           all_games << indvidual_game_data
           system 'clear'
-          puts ""
-          puts "------------------------------------------------------------".colorize(:magenta) 
-          puts "THE GAME YOU SHOULD PLAY IS ".colorize(:green) + "#{all_games.sample.upcase.colorize(:red)}"
-          puts "------------------------------------------------------------".colorize(:magenta) 
-          puts ""
+          puts ''
+          puts '------------------------------------------------------------'.colorize(:magenta)
+          puts 'THE GAME YOU SHOULD PLAY IS '.colorize(:green) + all_games.sample.upcase.colorize(:red).to_s
+          puts '------------------------------------------------------------'.colorize(:magenta)
+          puts ''
         end
       end
 
     end
-    puts "All games completed!".colorize(:green)
+    puts 'All games completed!'.colorize(:green)
   end
 
+  def self.edit_game_menu(games)
+    system 'clear'
+    if games.empty?
+      Selection.no_game
+    else
+      all_games = []
+      games.each do |game|
+        indvidual_game_data = [game.title]
+        all_games << indvidual_game_data
+      end
+      system 'clear'
+      game_to_edit = Selection.prompt.select('Select the game you want edit', all_games)
+      games.each_with_index do |game, index|
+        next unless game.title == game_to_edit
+
+        choice = Selection.select_form_db
+        case choice
+        when 1
+          puts 'Enter a new title'
+          new_title = gets.chomp
+          answer = Selection.confirm_changes('Are you sure you want to make this change?')
+          if answer == 'Yes'
+            games[index].title = new_title
+            puts 'the title of your game has been changed!'.colorize(:green)
+          elsif answer == 'No'
+            puts 'changes have not been saved.'.colorize(:red)
+            return
+          end
+        when 2
+          new_genre = Selection.genre_options('select a new genre')
+          answer = Selection.confirm_changes('Are you sure you want to make this change?')
+          if answer == 'Yes'
+            games[index].genre = new_genre
+            puts 'the genre of your game has been changed!'.colorize(:green)
+          elsif answer == 'No'
+            puts 'changes have not been saved.'.colorize(:red)
+            return
+          end
+        when 3
+          new_platform = Selection.console_options('Select a new platform')
+          answer = Selection.confirm_changes('Are you sure you want to make this change?')
+          if answer == 'Yes'
+            games[index].platform = new_platform
+            puts 'the platform of your game has been changed!'.colorize(:green)
+          elsif answer == 'No'
+            puts 'changes have not been saved.'.colorize(:red)
+            return
+          end
+        when 4
+          system 'clear'
+          answer = Selection.toggle_completion(games[index].status)
+          games[index].status = answer
+        when 5
+          return
+        end
+      end
+    end
+  end
+
+  def self.delete_game(games)
+    system 'clear'
+    if games.empty?
+      Selection.no_game
+    else
+      all_games = []
+      games.each do |game|
+        indvidual_game_data = [game.title]
+        all_games << indvidual_game_data
+      end
+      game_to_delete = Selection.prompt.select('Select the game you want delete', all_games)
+      games.each_with_index do |game, index|
+        next unless game.title == game_to_delete
+          answer = Selection.confirm_changes("Are you sure you want to delete this game?".colorize(:yellow))
+          case answer
+          when "Yes"
+            games.delete_at(games.index games[index])
+            Selection.spinner("Deleting game from database","Deleted!")
+            puts "Game successfully deleted!".colorize(:green)
+          when "No"
+            puts "No changes have been made!".colorize(:green)
+          end
+      end
+    end
+    end
+    
 end
 
 module Open_saved_data
-
-end
-
-
-module Exit_and_store
-
-  def self.exit_and_store(games)
-    stored_array = []
-    Database.store_to_file(games,stored_array)
-    File.open("game_database/saved_data.csv","w") do |line|
-      stored_array.each_with_index do |data,index|
+  def self.application_open(game_array, data_file)
+    arr_header = []
+    arr_data = []
+    begin
+      File.open(data_file, 'r').each_with_index do |data, index|
         if index == 0
-              line << "Title,Genre,Platform,Status \n"
-              
+          arr_header << data
+        else
+          arr_data << data
         end
-        line << data + "\n"
+      end
+    rescue StandardError => e
+      p 'There is no file called saved_data. Please ensure the file exist'
+      p "error code #{e}"
+    end
+
+    arr_data.each do |data|
+      split_data = data.split(/[,\n]+/)
+      status = split_data[3] == 'true'
+      game_array << Database.new(split_data[0], split_data[1], split_data[2], status)
     end
   end
-    puts "All data has been saved!"
+end
+
+module Exit_and_store
+  def self.exit_and_store(games)
+    stored_array = []
+    Database.store_to_file(games, stored_array)
+    File.open('game_database/saved_data.csv', 'w') do |line|
+      stored_array.each_with_index do |data, index|
+        line << "Title,Genre,Platform,Status \n" if index == 0
+        line << data + "\n"
+      end
+    end
+    Selection.spinner('Saving Data', 'Saved!')
+    system 'clear'
+    puts "All data has been saved! \nGoodbye!".colorize(:cyan)
     abort
   end
-
-
-
 end
