@@ -22,13 +22,11 @@ class Database
 
   def self.display_all_games(game_array)
     if game_array.empty?
-      Selection.no_game
+      Ancillaries.no_game
     else
       all_games = []
       game_array.each do |game|
-        status = game.status == true ? 'YES'.colorize(:green) : 'NO'.colorize(:red)
-        indvidual_game_data = [game.title, game.genre, game.platform, status]
-        all_games << indvidual_game_data
+        Selection.search_store(game, all_games)
       end
       system 'clear'
       Selection.searched_result(all_games)
@@ -37,21 +35,14 @@ class Database
 
   def self.search_by(games)
     if games.empty?
-      Selection.no_game
+      Ancillaries.no_game
       nil
     else
       system 'clear'
       puts 'what attribute of the data would you like to search for?'
-      choice = Selection.prompt.select('Make your selection', 'Title' => 1, 'Genre' => 2, 'Platform' => 3, 'Completion status' => 4)
+      choice = Ancillaries.prompt.select('Make your selection', Ancillaries.number_menu)
       all_games = []
-      case choice
-      when 1
-        puts 'what game are you looking for?'
-        searched = gets.chomp.downcase
-      when 2 then searched = Selection.genre_options('Select a genre')
-      when 3 then searched = Selection.console_options('Select a platform')
-      when 4 then searched = Selection.completed_menu
-      end
+      searched = Search_feature.search_by_attribute(games,choice)
       games.each do |game|
         case choice
         when 1
@@ -71,5 +62,4 @@ class Database
       end
     end
   end
-  
 end

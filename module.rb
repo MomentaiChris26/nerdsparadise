@@ -9,26 +9,9 @@ require 'tty-spinner'
 
 # Adds methods for the menu selection in the main menu
 module Selection
-  def self.no_game
-    puts '------------------------------------------------------------'.colorize(:red)
-    puts 'No games in the database!'.colorize(:red)
-    puts '------------------------------------------------------------'.colorize(:red)
-  end
-
-  def self.prompt
-    TTY::Prompt.new
-  end
-
-  def self.spinner(text, stop_text)
-    spinner = TTY::Spinner.new("[:spinner] #{text}.......", format: :bouncing_ball)
-    spinner.auto_spin # Automatic animation with default interval
-    sleep(1.5) # Perform task
-    spinner.stop(stop_text) # Stop animation
-  end
-
   def self.add_game(games)
     system 'clear'
-    name = prompt.ask('What is the title of your game?', required: true)
+    name = Ancillaries.prompt.ask('What is the title of your game?', required: true)
     genre = genre_options('Select a genre')
     platform = console_options('Select a platform')
     completed = completed_menu
@@ -41,7 +24,7 @@ module Selection
     choices = { 'List all games' => 1,
                 'Search by attribute' => 2,
                 'Return to main menu' => 3 }
-    choice = prompt.select('Make your selection', choices)
+    choice = Ancillaries.prompt.select('Make your selection', choices)
     case choice
     when 1 then Database.display_all_games(game_array)
     when 2 then Database.search_by(game_array)
@@ -69,15 +52,15 @@ module Selection
   end
 
   def self.genre_options(text)
-    prompt.select(text, %w[Action Adventure Beat-em-up Fighting Shooter Simulator Strategy Role-playing Others], required: true, filter: true)
+    Ancillaries.prompt.select(text, %w[Action Adventure Beat-em-up Fighting Shooter Simulator Strategy Role-playing Others], required: true, filter: true)
   end
 
   def self.console_options(text)
-    prompt.select(text, %w[Xbox PlayStation Switch PC], required: true)
+    Ancillaries.prompt.select(text, %w[Xbox PlayStation Switch PC], required: true)
   end
 
   def self.completed_menu
-    prompt.select('Search by Completion Status') do |menu|
+    Ancillaries.prompt.select('Search by Completion Status') do |menu|
       menu.choice 'Completed', true
       menu.choice 'Not completed', false
     end
@@ -85,7 +68,7 @@ module Selection
 
   def self.toggle_completion(toggle_status)
     if toggle_status == true
-      answer = prompt.select('Change game to incomplete?'.colorize(:yellow), %w[Yes No])
+      answer = Ancillaries.prompt.select('Change game to incomplete?'.colorize(:yellow), %w[Yes No])
       if answer == 'Yes'
         puts 'Your changes have been saved!'.colorize(:green)
         return false
@@ -94,7 +77,7 @@ module Selection
         return
       end
     else
-      answer = prompt.select('Change game to completed?'.colorize(:yellow), %w[Yes No])
+      answer = Ancillaries.prompt.select('Change game to completed?'.colorize(:yellow), %w[Yes No])
       if answer == 'Yes'
         puts 'Your changes have been saved!'.colorize(:green)
         return true
@@ -111,16 +94,16 @@ module Selection
                          'Platform' => 3,
                          'Completion Status' => 4,
                          'Return to main menu' => 5 }
-    prompt.select('which attribute would you like to edit?', editable_choices)
+    Ancillaries.prompt.select('which attribute would you like to edit?', editable_choices)
   end
 
   def self.confirm_changes(text)
-    prompt.select(text, %w[Yes No])
+    Ancillaries.prompt.select(text, %w[Yes No])
   end
 
   def self.random_selection(games)
     system 'clear'
-    spinner('Looking for a game to play', 'Done!')
+    Ancillaries.spinner('Looking for a game to play', 'Done!')
     if games.empty?
       system 'clear'
       puts '------------------------------------------------------------'.colorize(:red)
@@ -152,7 +135,7 @@ module Selection
   def self.edit_game_menu(games)
     system 'clear'
     if games.empty?
-      Selection.no_game
+      Ancillaries.no_game
     else
       all_games = []
       games.each do |game|
@@ -160,7 +143,7 @@ module Selection
         all_games << indvidual_game_data
       end
       system 'clear'
-      game_to_edit = Selection.prompt.select('Select the game you want edit', all_games)
+      game_to_edit = Ancillaries.prompt.select('Select the game you want edit', all_games)
       games.each_with_index do |game, index|
         next unless game.title == game_to_edit
 
@@ -211,60 +194,101 @@ module Selection
   def self.delete_game(games)
     system 'clear'
     if games.empty?
-      Selection.no_game
+      Ancillaries.no_game
     else
       all_games = []
       games.each do |game|
         indvidual_game_data = [game.title]
         all_games << indvidual_game_data
       end
-      game_to_delete = Selection.prompt.select('Select the game you want delete', all_games)
+      game_to_delete = Ancillaries.prompt.select('Select the game you want delete', all_games)
       games.each_with_index do |game, index|
         next unless game.title == game_to_delete
-          answer = Selection.confirm_changes("Are you sure you want to delete this game?".colorize(:yellow))
-          case answer
-          when "Yes"
-            games.delete_at(games.index games[index])
-            Selection.spinner("Deleting game from database","Deleted!")
-            puts "Game successfully deleted!".colorize(:green)
-          when "No"
-            puts "No changes have been made!".colorize(:green)
-          end
+
+        answer = Selection.confirm_changes('Are you sure you want to delete this game?'.colorize(:yellow))
+        case answer
+        when 'Yes'
+          games.delete_at(games.index(games[index]))
+          Ancillaries.spinner('Deleting game from database', 'Deleted!')
+          puts 'Game successfully deleted!'.colorize(:green)
+        when 'No'
+          puts 'No changes have been made!'.colorize(:green)
+        end
       end
     end
     end
 
-    def self.argv_delete(games,argv_data)
-      if games.empty?
-        Selection.no_game
-      else
-        all_games = []
-        games.each do |game|
-          indvidual_game_data = [game.title]
-          all_games << indvidual_game_data
-        end
+  def self.argv_delete(games, argv_data)
+    if games.empty?
+      Ancillaries.no_game
+    else
+      all_games = []
+      games.each do |game|
+        indvidual_game_data = [game.title]
+        all_games << indvidual_game_data
+      end
 
-        game_to_delete = "#{argv_data}"
+      game_to_delete = argv_data.to_s
       games.each_with_index do |game, index|
         if game.title.downcase == game_to_delete
-          answer = Selection.confirm_changes("Are you sure you want to delete this game?".colorize(:yellow))
+          answer = Selection.confirm_changes('Are you sure you want to delete this game?'.colorize(:yellow))
           case answer
-          when "Yes"
-            games.delete_at(games.index games[index])
-            Selection.spinner("Deleting game from database","Deleted!")
-            puts "Game successfully deleted!".colorize(:green)
-          when "No"
-            puts "No changes have been made!".colorize(:green)
+          when 'Yes'
+            games.delete_at(games.index(games[index]))
+            Ancillaries.spinner('Deleting game from database', 'Deleted!')
+            puts 'Game successfully deleted!'.colorize(:green)
+          when 'No'
+            puts 'No changes have been made!'.colorize(:green)
           end
         else
           puts '------------------------------------------------------------'.colorize(:red)
-          puts "game not found".colorize(:red)
+          puts 'game not found'.colorize(:red)
           puts '------------------------------------------------------------'.colorize(:red)
         end
       end
-      end
     end
+  end
+end
 
+module Search_feature
+
+  def self.search_by_attribute(games,choice)
+    case choice
+    when 1
+      puts 'what game are you looking for?'
+      searched = gets.chomp.downcase
+    when 2 then searched = Selection.genre_options('Select a genre')
+    when 3 then searched = Selection.console_options('Select a platform')
+    when 4 then searched = Selection.completed_menu
+    end
+  end
+end
+
+
+module Ancillaries
+  def self.no_game
+    puts '------------------------------------------------------------'.colorize(:red)
+    puts 'No games in the database!'.colorize(:red)
+    puts '------------------------------------------------------------'.colorize(:red)
+  end
+
+  def self.prompt
+    TTY::Prompt.new
+  end
+
+  def self.number_menu
+    { 'Title' => 1,
+      'Genre' => 2,
+      'Platform' => 3,
+      'Completion status' => 4 }
+  end
+
+  def self.spinner(text, stop_text)
+    spinner = TTY::Spinner.new("[:spinner] #{text}.......", format: :bouncing_ball)
+    spinner.auto_spin # Automatic animation with default interval
+    sleep(1.5) # Perform task
+    spinner.stop(stop_text) # Stop animation
+  end
 end
 
 module Open_saved_data
@@ -285,9 +309,9 @@ module Open_saved_data
     end
 
     arr_data.each do |data|
-      split_data = data.split(/[,\n]+/)
-      status = split_data[3] == 'true'
-      game_array << Database.new(split_data[0], split_data[1], split_data[2], status)
+      split = data.split(/[,\n]+/)
+      status = split[3] == 'true'
+      game_array << Database.new(split[0], split[1], split[2], status)
     end
   end
 end
@@ -302,7 +326,7 @@ module Exit_and_store
         line << data + "\n"
       end
     end
-    Selection.spinner('Saving Data', 'Saved!')
+    Ancillaries.spinner('Saving Data', 'Saved!')
     system 'clear'
     puts '------------------------------------------------------------'.colorize(:magenta)
     puts "All data has been saved! \nGoodbye!".colorize(:cyan)
@@ -315,10 +339,10 @@ module Exit_and_store
     Database.store_to_file(games, stored_array)
     File.open(DATA, 'w') do |line|
       stored_array.each_with_index do |data, index|
-        line << "Title,Genre,Platform,Status \n" if index == 0
+        line << "Title,Genre,Platform,Status \n" if index.zero?
         line << data + "\n"
       end
     end
-    abort  
+    abort
   end
 end
