@@ -30,6 +30,7 @@ begin
   end
 rescue StandardError => e
   p 'There is no file called saved_data. Please ensure the file exist'
+  p "error code #{e}"
 end
 
 arr_data.each do |data|
