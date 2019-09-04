@@ -233,7 +233,38 @@ module Selection
       end
     end
     end
-    
+
+    def self.argv_delete(games,argv_data)
+      if games.empty?
+        Selection.no_game
+      else
+        all_games = []
+        games.each do |game|
+          indvidual_game_data = [game.title]
+          all_games << indvidual_game_data
+        end
+
+        game_to_delete = "#{argv_data}"
+      games.each_with_index do |game, index|
+        if game.title.downcase == game_to_delete
+          answer = Selection.confirm_changes("Are you sure you want to delete this game?".colorize(:yellow))
+          case answer
+          when "Yes"
+            games.delete_at(games.index games[index])
+            Selection.spinner("Deleting game from database","Deleted!")
+            puts "Game successfully deleted!".colorize(:green)
+          when "No"
+            puts "No changes have been made!".colorize(:green)
+          end
+        else
+          puts '------------------------------------------------------------'.colorize(:red)
+          puts "game not found".colorize(:red)
+          puts '------------------------------------------------------------'.colorize(:red)
+        end
+      end
+      end
+    end
+
 end
 
 module Open_saved_data
@@ -265,7 +296,7 @@ module Exit_and_store
   def self.exit_and_store(games)
     stored_array = []
     Database.store_to_file(games, stored_array)
-    File.open('game_database/saved_data.csv', 'w') do |line|
+    File.open(DATA, 'w') do |line|
       stored_array.each_with_index do |data, index|
         line << "Title,Genre,Platform,Status \n" if index == 0
         line << data + "\n"
@@ -273,7 +304,21 @@ module Exit_and_store
     end
     Selection.spinner('Saving Data', 'Saved!')
     system 'clear'
+    puts '------------------------------------------------------------'.colorize(:magenta)
     puts "All data has been saved! \nGoodbye!".colorize(:cyan)
+    puts '------------------------------------------------------------'.colorize(:magenta)
     abort
+  end
+
+  def self.argv_exit(games)
+    stored_array = []
+    Database.store_to_file(games, stored_array)
+    File.open(DATA, 'w') do |line|
+      stored_array.each_with_index do |data, index|
+        line << "Title,Genre,Platform,Status \n" if index == 0
+        line << data + "\n"
+      end
+    end
+    abort  
   end
 end

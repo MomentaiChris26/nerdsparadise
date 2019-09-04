@@ -12,10 +12,9 @@ class Database
     @genre = genre
     @platform = platform
     @status = status
-    @completion_date
   end
 
-  def self.store_to_file(games,stored_array)
+  def self.store_to_file(games, stored_array)
     games.each do |game|
       stored_array << "#{game.title},#{game.genre},#{game.platform},#{game.status}"
     end
@@ -23,7 +22,7 @@ class Database
 
   def self.display_all_games(game_array)
     if game_array.empty?
-      puts 'No games in database!'.colorize(:red)
+      Selection.no_game
     else
       all_games = []
       game_array.each do |game|
@@ -38,7 +37,7 @@ class Database
 
   def self.search_by(games)
     if games.empty?
-      puts 'There are no games in your database'.colorize(:red)
+      Selection.no_game
       nil
     else
       system 'clear'
@@ -72,9 +71,5 @@ class Database
       end
     end
   end
-
-
-
-
-
+  
 end
