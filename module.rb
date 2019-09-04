@@ -13,6 +13,7 @@ module Selection
   end
 
   def self.add_game(games)
+    system 'clear'
     name = prompt.ask('What is the title of your game?', required: true)
     genre = genre_options('Select a genre')
     platform = console_options('Select a platform')
@@ -48,7 +49,7 @@ module Selection
   end
 
   def self.search_store(game, all_games)
-    status = game.status == true ? 'YES' : 'NO'
+    status = game.status == true ? 'YES'.colorize(:green) : 'NO'.colorize(:red)
     indvidual_game_data = [game.title, game.genre, game.platform, status]
     all_games << indvidual_game_data
   end
@@ -101,4 +102,61 @@ module Selection
   def self.confirm_changes(text)
     prompt.select(text, %w[Yes No])
   end
+
+  def self.random_selection(games)
+    system 'clear'
+    if games.empty?
+      puts "------------------------------------------------------------".colorize(:red) 
+      puts 'No games in the database!'.colorize(:red)
+      puts "------------------------------------------------------------".colorize(:red) 
+      return
+    else
+      all_games = []
+      games.each do |game|
+        if game.status == true
+          next
+        else
+          status = game.status == true ? 'YES' : 'NO'
+          indvidual_game_data = game.title
+          all_games << indvidual_game_data
+          system 'clear'
+          puts ""
+          puts "------------------------------------------------------------".colorize(:magenta) 
+          puts "THE GAME YOU SHOULD PLAY IS ".colorize(:green) + "#{all_games.sample.upcase.colorize(:red)}"
+          puts "------------------------------------------------------------".colorize(:magenta) 
+          puts ""
+        end
+      end
+
+    end
+    puts "All games completed!".colorize(:green)
+  end
+
+end
+
+module Open_saved_data
+
+end
+
+
+module Exit_and_store
+
+  def self.exit_and_store(games)
+    stored_array = []
+    Database.store_to_file(games,stored_array)
+    File.open("game_database/saved_data.csv","w") do |line|
+      stored_array.each_with_index do |data,index|
+        if index == 0
+              line << "Title,Genre,Platform,Status \n"
+              
+        end
+        line << data + "\n"
+    end
+  end
+    puts "All data has been saved!"
+    abort
+  end
+
+
+
 end

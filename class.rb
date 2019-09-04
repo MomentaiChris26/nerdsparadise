@@ -15,6 +15,12 @@ class Database
     @completion_date
   end
 
+  def self.store_to_file(games,stored_array)
+    games.each do |game|
+      stored_array << "#{game.title},#{game.genre},#{game.platform},#{game.status}"
+    end
+  end
+
   def self.display_all_games(game_array)
     if game_array.empty?
       puts 'No games in database!'.colorize(:red)
@@ -123,6 +129,7 @@ class Database
   end
 
   def self.delete_game(games)
+    system 'clear'
     if games.empty?
       puts 'No games in the database!'.colorize(:red)
     else
@@ -147,28 +154,7 @@ class Database
     end
 
     def self.select_random(games)
-      if games.empty?
-        puts 'No games in the database!'.colorize(:red)
-      else
-        all_games = []
-        games.each do |game|
-          if game.status == true
-            next
-          else
-            status = game.status == true ? 'YES' : 'NO'
-            indvidual_game_data = game.title
-            all_games << indvidual_game_data
-            
-          end
-          
-        end
-        system 'clear'
-        puts ""
-        puts "------------------------------------------------------------".colorize(:magenta) 
-        puts "THE GAME YOU SHOULD PLAY IS ".colorize(:green) + "#{all_games.sample.upcase.colorize(:red)}" 
-        puts "------------------------------------------------------------".colorize(:magenta) 
-        puts ""
-      end
-  end
+      Selection.random_selection(games)
+    end
 
 end
