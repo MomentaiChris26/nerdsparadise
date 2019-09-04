@@ -12,6 +12,7 @@ class Database
     @genre = genre
     @platform = platform
     @status = status
+    @completion_date
   end
 
   def self.display_all_games(game_array)
@@ -28,74 +29,97 @@ class Database
       Selection.searched_result(all_games)
     end
   end
-  def self.edit_title(games)
-    puts "Which game would you like to edit?"
-    searched = gets.chomp
-    games.each do |game|
-            if game.title == searched
-                edit_game(games)
-                return 
-            end
-        end
-        puts "game not found!".colorize(:red)
-  end
 
   def self.search_by(games)
     if games.empty?
-      puts "There are no games in your database".colorize(:red)
-      return
+      puts 'There are no games in your database'.colorize(:red)
+      nil
     else
-      puts "what attribute of the data would you like to search for?"
-      prompt = TTY::Prompt.new
-      choices = { 'Title' => 1, 'Genre' => 2, 'Platform' => 3, 'Completion status' => 4 }
-      choice = prompt.select('Make your selection', choices)
+      system 'clear'
+      puts 'what attribute of the data would you like to search for?'
+      choice = TTY::Prompt.new.select('Make your selection', { 'Title' => 1, 'Genre' => 2, 'Platform' => 3, 'Completion status' => 4 })
       all_games = []
       case choice
       when 1
-        puts "what game are you looking for?"
-        searched = gets.chomp
-      when 2
-        choices_genre = %w[Action Adventure Beat-em-up Fighting Shooter Simulator Strategy Role-playing Others]
-        searched = prompt.select('Select a genre?', choices_genre)
-      when 3
-        choices_platform = %w[Xbox PlayStation Switch PC]
-        searched = prompt.select('Select a platform?', choices_platform)
-      when 4
-        searched = prompt.select('Search by Completion Status') do |menu|
-          menu.choice 'Completed', true
-          menu.choice 'Not completed', false
-        end
+        puts 'what game are you looking for?'
+        searched = gets.chomp.downcase
+      when 2 then searched = Selection.genre_options("Select a genre")
+      when 3 then searched = Selection.console_options("Select a platform")
+      when 4 then searched = Selection.completed_menu
       end
       games.each do |game|
-                case choice
-                when 1
-                  if game.title == searched
-                    Selection.search_store(game,all_games)
-                    return Selection.searched_result(all_games)
-                  end
-                when 2
-                  if game.genre == searched
-                    Selection.search_store(game,all_games)
-                  end
-                when 3
-                  if game.platform == searched
-                    Selection.search_store(game,all_games)
-                  end
-                when 4
-                  if game.status == searched
-                    Selection.search_store(game,all_games)
-                  end
-                end
-            end
-            if all_games.empty?
-              puts "No results found!".colorize(:red)
-            else
-            Selection.searched_result(all_games)
-            end
+        case choice
+        when 1
+          if game.title.downcase == searched
+            Selection.search_store(game, all_games)
+            return Selection.searched_result(all_games)
+          end
+        when 2 then Selection.search_store(game,all_games) if game.genre == searched
+        when 3 then Selection.search_store(game, all_games) if game.platform == searched
+        when 4 then Selection.search_store(game, all_games) if game.status == searched
+        end
+      end
+      if all_games.empty?
+        puts 'No results found!'.colorize(:red)
+      else
+        Selection.searched_result(all_games)
+      end
     end
   end
 
-  def self.edit_game(game)
-    puts game
-    end
+  def self.edit_game_menu(games)
+    if games.empty?
+      puts "No games in the database!".colorize(:red)
+    else
+        all_games = []
+        games.each do |game|
+          indvidual_game_data = [game.title]
+          all_games << indvidual_game_data
+        end
+        system 'clear'
+        game_to_edit = TTY::Prompt.new.select('Select the game you want edit',all_games)
+        games.each_with_index do |game,index|
+          if game.title == game_to_edit
+              choice = Selection.select_form_db
+              case choice
+              when 1
+                puts "Enter a new title"
+                new_title = gets.chomp
+                answer = Selection.confirm_changes
+                if answer == "Yes"
+                  games[index].title = new_title
+                  puts "the title of your game has been changed!".colorize(:green)
+                elsif answer == "No"
+                  puts "changes have not been saved.".colorize(:red)
+                  return
+                end
+              when 2
+                new_genre = Selection.genre_options('select a new genre')
+                answer = Selection.confirm_changes
+                if answer == "Yes"
+                  games[index].genre = new_genre
+                  puts "the genre of your game has been changed!".colorize(:green)
+                elsif answer == "No"
+                  puts "changes have not been saved.".colorize(:red)
+                  return
+                end
+              when 3
+                new_platform = Selection.console_options("Select a new platform")
+                answer = Selection.confirm_changes
+                if answer == "Yes"
+                  games[index].platform = new_platform
+                  puts "the platform of your game has been changed!".colorize(:green)
+                elsif answer == "No"
+                  puts "changes have not been saved.".colorize(:red)
+                  return
+                end
+              when 4
+                answer = Selection.toggle_completion(games[index].status)
+                games[index].status = answer
+              end
+          end
+        end 
+        
+      end
+  end
 end
