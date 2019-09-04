@@ -8,11 +8,14 @@ require 'terminal-table'
 
 # Adds methods for the menu selection in the main menu
 module Selection
+  def self.prompt
+    TTY::Prompt.new
+  end
+
   def self.add_game(games)
-    prompt = TTY::Prompt.new
     name = prompt.ask('What is the title of your game?', required: true)
-    genre = genre_options("Select a genre")
-    platform = console_options("Select a platform")
+    genre = genre_options('Select a genre')
+    platform = console_options('Select a platform')
     completed = completed_menu
     games << Database.new(name, genre, platform, completed)
     system 'clear'
@@ -20,7 +23,6 @@ module Selection
   end
 
   def self.search_games(game_array)
-    prompt = TTY::Prompt.new
     choices = { 'List all games' => 1,
                 'Search by attribute' => 2,
                 'Return to main menu' => 3 }
@@ -33,10 +35,9 @@ module Selection
   end
 
   def self.searched_result(games)
-    font = TTY::Font.new(:doom)
     rows = []
     table = Terminal::Table.new rows: rows do |row|
-      row.title = font.write('GAMES')
+      row.title = TTY::Font.new(:doom).write('GAMES')
       row.headings = 'Title', 'Genre', 'Platform', 'Completed?'
       games.each do |data|
         row << data
@@ -53,15 +54,15 @@ module Selection
   end
 
   def self.genre_options(text)
-    TTY::Prompt.new.select(text, %w[Action Adventure Beat-em-up Fighting Shooter Simulator Strategy Role-playing Others], required: true, filter: true)
+    prompt.select(text, %w[Action Adventure Beat-em-up Fighting Shooter Simulator Strategy Role-playing Others], required: true, filter: true)
   end
 
   def self.console_options(text)
-    TTY::Prompt.new.select(text, %w[Xbox PlayStation Switch PC], required: true)
+    prompt.select(text, %w[Xbox PlayStation Switch PC], required: true)
   end
 
   def self.completed_menu
-    TTY::Prompt.new.select('Search by Completion Status') do |menu|
+    prompt.select('Search by Completion Status') do |menu|
       menu.choice 'Completed', true
       menu.choice 'Not completed', false
     end
@@ -69,23 +70,21 @@ module Selection
 
   def self.toggle_completion(toggle_status)
     if toggle_status == true
-      system 'clear'
-      answer = TTY::Prompt.new.select("Change game to incomplete?", %w(Yes No))
-      if answer == "Yes" 
-        puts "Your changes have been saved!".colorize(:green)
+      answer = prompt.select('Change game to incomplete?'.colorize(:yellow), %w[Yes No])
+      if answer == 'Yes'
+        puts 'Your changes have been saved!'.colorize(:green)
         return false
-      elsif answer == "No"
-        puts "No changes have been made".colorize(:yellow)
+      elsif answer == 'No'
+        puts 'No changes have been made'.colorize(:yellow)
         return
       end
     else
-      system 'clear'
-      answer = TTY::Prompt.new.select("Change game to completed?", %w(Yes No))
-      if answer == "Yes"
-        puts "Your changes have been saved!".colorize(:green)
+      answer = prompt.select('Change game to completed?'.colorize(:yellow), %w[Yes No])
+      if answer == 'Yes'
+        puts 'Your changes have been saved!'.colorize(:green)
         return true
-      elsif answer == "No"
-        puts "No changes have been made".colorize(:yellow)
+      elsif answer == 'No'
+        puts 'No changes have been made'.colorize(:yellow)
         return
       end
     end
@@ -93,13 +92,13 @@ module Selection
 
   def self.select_form_db
     editable_choices = { 'Title' => 1,
-      'Genre' => 2,
-      'Platform' => 3,
-      'Completion Status' => 4}
+                         'Genre' => 2,
+                         'Platform' => 3,
+                         'Completion Status' => 4 }
     TTY::Prompt.new.select('which attribute would you like to edit?', editable_choices)
   end
 
-  def self.confirm_changes
-    TTY::Prompt.new.select("Are you sure you want to make this change?", %w(Yes No), cycle: true)
+  def self.confirm_changes(text)
+    TTY::Prompt.new.select(text, %w[Yes No])
   end
 end
