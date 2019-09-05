@@ -71,7 +71,7 @@ The 'add game' feature utilises multiple complex methods that takes the user's i
 
 below is the checklist for the implementation of add game feature. 
 
-![add game checklist](assets/add_game_feature_checklist.jpg)
+![add game checklist](assets/add_game_feature_checklist.JPG)
 
 ### Search game
 'Search game' feature was the most complex feature as it was a standalone menu.
@@ -82,7 +82,7 @@ This menu was broken up into the following sub-features:
 
 2. Search by attribute: Allows the user search by attribute and returns all results that match that attribute. To accomplish this, .each method will iterate through each of the instances, and when it finds a match, stores it into a temporary array, which then gets printed out by the end of the method. 
 
-![search game checklist](assets/search_game_feature_checklist.jpg)
+![search game checklist](assets/search_game_feature_checklist.JPG)
 
 
 ### Edit game
