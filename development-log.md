@@ -61,3 +61,10 @@ Christopher Tri
 
 [sent email 04/09/2019 - PDF copy](assets/chris-tri-T1A2-6-status-update-04-09-2019.pdf)
 
+### Final update on 04 September 2019
+
+1. Finalised and cleaned up code. 
+
+2. Added automated testing code to test add game and delete features. 
+
+3. Added documentation for the terminal app. 

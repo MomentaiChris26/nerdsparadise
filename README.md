@@ -1,16 +1,20 @@
 # NERD'S PARADISE
 
 
-## Purpose
+## Statement of Purpose and Scope
 
-The purpose of nerd's paradise is to solves the problem keeping track of all the video games collections.
+The purpose of nerd's paradise is to solves the problem keeping track of all the video games collections. The reason why I'm developing this application, is because as a game collector myself, I have a large game collection and keeping track of all of them can be fustrating, especially if I've already played them. This application will fix that by giving the user the ability to store their game collection into an application where they can retrieve or modify the data.
 
-Nerd's paradise is a simple program that uses using user-friendly interfaces, menus and inputs to allow the users to store individual game details into a local database and view, modify or delete those details. 
+The application achieves this by storing data into an instances using ruby class methods, then storing that into a global array. The data can be manipulated from the global array by accesing the with methods and the information is then stored into a csv when the user exits the program. When the user re-opens the application, the program will retrieve that data from the the local csv.
+
+One major issue was storing the data into a local csv file. If the csv file is deleted or moved to a different folder, the application can't retrieve the data and will instead create a new file inside the local drive. There is a begin and rescue on this to avoid the application from crashing if the file was to be deleted or moved. However, users would lose their database if this was to occur. At the current version, there hasn't been a fix to solve this issue. However, its possible that future updates to the application will solve this.
 
 The local database is a csv file that is located within the same file as the files.
 
-## Target Audience
+### Target Audience
 Nerd's paradise is designed for video gamers collectors of videos. 
+
+The audience interacts with the application through menus. The menu is easy to follow and the user can do what they want to achieve by selecting the relevant menu item.
 
 ## Functionality
 
@@ -206,7 +210,7 @@ There will also need to be a prompt that warns the user that the data is going t
 
 This is accomplished by extracting the games from the global array with the attribute "incomplete", storing them into a temporary array and using the .sample method to select the game. Finally, it will print the chosen game into the terminal. 
 
-![search for a  game checklist](assets/select_a_game_feature.JPG)
+![search for a  game checklist](assets/chris-tri-T1A2-6-select-a-game-feature.JPG)
 
 
 # Help
@@ -221,7 +225,8 @@ $ bash build.sh
 ````
 
 ## Minimum requirements
-
+PC, MAC or Linux system. 
+System terminal to run and install the application. 
 
 ## Running the application
 Firstly, go to the dist folder using the following command in terminal where the application is located:
