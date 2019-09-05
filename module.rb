@@ -191,7 +191,7 @@ module Selection
   end
 
   def self.delete_game(games)
-    system 'clear'
+    # system 'clear'
     if games.empty?
       Ancillaries.no_game
     else
@@ -250,8 +250,7 @@ module Selection
 end
 
 module Search_feature
-
-  def self.search_by_attribute(games,choice)
+  def self.search_by_attribute(_games, choice)
     case choice
     when 1
       puts 'what game are you looking for?'
@@ -262,7 +261,6 @@ module Search_feature
     end
   end
 end
-
 
 module Ancillaries
   def self.no_game
