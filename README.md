@@ -94,6 +94,8 @@ The edit game feature uses elements from the search game feature. It will first 
 
 Once the user picks a one of the games, it will present the user with a choice for which attribute to edit. This will be accomplished by iterating through the global array, matching the name of the game and editing the chosen attribute. The attribute is updated and re-stored into the global array.
 
+![edit game checklist](assets/edit_game_feature_checklist.JPG)
+
 ### Delete game
 'delete game' feature allows the user to delete a game from their database. 
 
@@ -101,10 +103,14 @@ This will be accomplished by accessing the global array containing all the games
 
 There will also need to be a prompt that warns the user that the data is going to be deleted. This is accomplished using tty-prompt.
 
+![delete game checklist](assets/delete_game_feature_checklist.JPG)
+
 ### Search for a game
 'Search for a game' feature allows the user to select an incomplete game and print it to the terminal. 
 
 This is accomplished by extracting the games from the global array with the attribute "incomplete", storing them into a temporary array and using the .sample method to select the game. Finally, it will print the chosen game into the terminal. 
+
+![search for a  game checklist](assets/select_a_game_feature.JPG)
 
 
 # Help
