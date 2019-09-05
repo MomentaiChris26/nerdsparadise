@@ -30,7 +30,7 @@ choices = { 'Select a game to play' => 1,
 
 def main_menu(stored_games, menu)
   loop do
-    case Ancillaries.prompt.select('Make your selection', menu)
+    case Ancillaries.prompt.select('Make your selection'.colorize(:yellow), menu)
     when 1 then Selection.random_selection(stored_games)
     when 2 then Selection.add_game(stored_games)
     when 3 then Selection.search_games(stored_games)

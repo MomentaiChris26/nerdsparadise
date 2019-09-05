@@ -10,10 +10,11 @@ require 'tty-spinner'
 module Selection
   def self.add_game(games)
     system 'clear'
+    confirm_add =  Ancillaries.prompt.select('Do you want to add a new game?',%w[Yes No])
+    return if confirm_add == "No"
     name = Ancillaries.prompt.ask('Title of your game?', required: true)
     duplicate = Ancillaries.duplicate_game_search(games, name)
     return if duplicate == 'break'
-
     genre = genre_options('Select a genre')
     platform = console_options('Select a platform')
     completed = completed_menu
