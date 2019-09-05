@@ -202,7 +202,7 @@ This option allows you to delete a game from your database.
 3. If yes is selected, the game will be deleted.
 
 
-## Adding a new or Displaying all games outside of the progrm.
+## Adding a new or Displaying all games outside of the program.
 
 This feature allows you to delete games or display all games in the database outside the program. 
 
