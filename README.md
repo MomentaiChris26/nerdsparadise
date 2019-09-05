@@ -3,8 +3,14 @@
 
 ## Purpose
 
-Made for Video gamers and collectors of video games. Nerd's paradise is a simple program that uses using user-friendly interfaces, menus and inputs to allow the users to store individual game details into a local database and view, modify or delete those details. The goal of nerd's paradise is to solves the problem keeping track of all the video games in the user's collection.
+The purpose of nerd's paradise is to solves the problem keeping track of all the video games collections.
 
+Nerd's paradise is a simple program that uses using user-friendly interfaces, menus and inputs to allow the users to store individual game details into a local database and view, modify or delete those details. 
+
+The local database is a csv file that is located within the same file as the files.
+
+## Target Audience
+Nerd's paradise is designed for video gamers collectors of videos. 
 
 ## Functionality
 
@@ -22,7 +28,7 @@ The Ruby gems 'tty-prompt', 'tty-spinner', 'terminal-table', 'colorize' and 'tty
 
 Minimum system requirements: Mac, Windows or Linux
 
-## Instruction for initial install
+## Instruction for install
 
 Download source code and save to preferred directory
 
@@ -37,19 +43,107 @@ $ ruby app.rb
 ````
 From the main menu, make a section:
 
-![main menu](assets/main_menu.jpg)
+![main menu](assets/chris-tri-T1A2-4-main-menu.jpg)
 
 ## Task Management
 
 Priorities and tasks were managed using a trello board. It allowed me to itemise, breakdown tasks to be systematically completed to meet minimum viable product. 
 
-![trello board screenshot](assets/trello_board_screenshot.jpg)
+![trello board screenshot](assets/chris-tri-T1A2-14-project-mgnt-program.jpg)
 
 ## Flow Chart
 
 Below is a flowchart detailing the processes and its related control flows.
 
-![control flow chart](assets/np_flow_chart.jpeg)
+![control flow chart](assets/chris-tri-T1A2-5-control-flow-diagram.jpeg)
+
+
+## User Interaction and Experience
+
+Once the user installs the required dependencies, they can run the application using the following in terminal:
+
+Firstly,they will go to the dist folder using the following command in terminal where the application is located:
+````
+cd dist
+````
+To run the application, in your terminal, type:
+````
+$ ruby app.rb
+````
+The main menu should appear.
+
+![main menu](assets/chris-tri-T1A2-4-main-menu.jpg)
+
+## Using the application
+
+The user can move up and down the available options in the menu using the up/down arrow keys. To select the option, press enter.
+
+### 1 - Select a game to play
+This option prints a random game that has a status incomplete to terminal for the user to pick and play.
+
+To handle the error where there is no games in the database or all games are marked completed, it prints a message to the user notifying them of that issue. 
+
+### 2 - Adding a game
+This option allows the user to enter a new game into the database. 
+1. Select the 'Add game' option
+
+2. The user will recieve a prompt asking to confirm they want to add a game.
+
+3. Enter the name of your game.
+
+3. Genre, Platform and Completion Status have similar menu layouts. This will be a menu that can be navigated using the up/down arrow keys. Select using the Enter key.
+
+To ensure that errors relating to entering data, the program presents the user with pre-determined options, hence avoiding the possibility that the user enters data that could break the application.
+
+### 3 - Search games
+This option will allows the user to search and return the list of games using a selected criteria.
+
+![search menu](assets/chris-tri-T1A2-4-searched-menu.JPG)
+
+1. To display all games in the database, select the 'list all games'. Games will print onto the terminal. 
+
+2. If the user want to search for specfic games in your database or list by attributes, select they can use the 'search by attribute' feature.
+
+They'll be presented with the following options: 
+
+![search attribute menu](assets/chris-tri-T1A2-4-search-by-attribute.JPG)
+
+If you choose to search by Title, they'll be presented with a screen where they'll need to enter the name of the game you're looking for. 
+
+The other options in the search by attribute menu is guided by prompts. Use the up/down arrow keys to navigate and the enter key to select the option.
+
+If the game exists in the in the database, it will print to your screen. If the game(s) doesn't exist in your database it will return 'no results found!'
+
+### 4 - Edit game
+This option allows you edit an attribute of your game in the database. 
+
+1. Select a game the user want to edit. 
+2. Select the attribute the user wants to edit.
+3. They'll be prompted to confirm if they want to save the changes. 
+4. It will notify them that the game's attribute has been changed successfully. 
+
+### 5 - Delete game
+This option allows the user to delete a game from your database.
+
+1. Select the game the user want to delete
+2. They'll be prompted to confirm if they want to delete the file. 
+3. If yes is selected, the game will be deleted.
+
+## Adding a new game or Displaying all games outside of the program.
+
+This feature allows a user to add a game or display all games in the database outside the program.
+
+1. To display all games outside the program enter the following in terminal:
+
+````
+$ ruby app.rb display
+````
+
+2. If they want to add a game to the database outside the program, enter the following in terminal:
+
+````
+$ruby app.rb add <name of game>
+````
 
 
 # Implementation Plan
@@ -73,7 +167,7 @@ The 'add game' feature utilises multiple complex methods that takes the user's i
 
 below is the checklist for the implementation of add game feature. 
 
-![add game checklist](assets/add_game_feature_checklist.JPG)
+![add game checklist](assets/chris-tri-T1A2-6-add-game-feature-checklist.JPG)
 
 ### Search game
 'Search game' feature was the most complex feature as it was a standalone menu.
@@ -84,7 +178,7 @@ This menu was broken up into the following sub-features:
 
 2. Search by attribute: Allows the user search by attribute and returns all results that match that attribute. To accomplish this, .each method will iterate through each of the instances, and when it finds a match, stores it into a temporary array, which then gets printed out by the end of the method. 
 
-![search game checklist](assets/search_game_feature_checklist.JPG)
+![search game checklist](assets/chris-tri-T1A2-6-search-game-feature-checklist.JPG)
 
 
 ### Edit game
@@ -96,7 +190,7 @@ The edit game feature uses elements from the search game feature. It will first 
 
 Once the user picks one of the games, it will present the user with a choice for which attribute to edit. This will be accomplished by iterating through the global array, matching the name of the game and editing the chosen attribute. The attribute is updated and re-stored into the global array.
 
-![edit game checklist](assets/edit_game_feature_checklist.JPG)
+![edit game checklist](assets/chris-tri-T1A2-6-edit-game-feature-checklist.JPG)
 
 ### Delete game
 'delete game' feature allows the user to delete a game from their database. 
@@ -105,7 +199,7 @@ This will be accomplished by accessing the global array containing all the games
 
 There will also need to be a prompt that warns the user that the data is going to be deleted. This is accomplished using tty-prompt.
 
-![delete game checklist](assets/delete_game_feature_checklist.JPG)
+![delete game checklist](assets/chris-tri-T1A2-6-delete-game-feature-checklist.JPG)
 
 ### Search for a game
 'Search for a game' feature allows the user to select an incomplete game and print it to the terminal. 
@@ -119,13 +213,15 @@ This is accomplished by extracting the games from the global array with the attr
 
 This section wil explain how to install the necessary dependencies and how to use the application itself.
 
-
 ## Installing necessary dependencies
 To ensure your machine has the necessary dependencies to run the application, you'll need to run the build.sh in your terminal. Use the following command in terminal to install the necessary dependencies. 
 
 ````
 $ bash build.sh
 ````
+
+## Minimum requirements
+
 
 ## Running the application
 Firstly, go to the dist folder using the following command in terminal where the application is located:
@@ -139,82 +235,5 @@ $ ruby app.rb
 ````
 If the application runs correctly, you'll see the following screen appear on your terminal.
 
-![main menu](assets/main_menu.jpg)
+![main menu](assets/chris-tri-T1A2-4-main-menu.jpg)
 
-
-## Using the application
-
-You can move up and down the available options in the menu using the up/down arrow keys. To select the option, press enter.
-
-
-### 1 - Select a game to play
-This option returns a random 'incomplete' game from the database.
-
-This option will print an incomplete game onto terminal as long as you have stored a game in the database with the status 'not completed'. Otherwise it will print a message telling you "there are no games in your database" or "all games are completed"
-
-### 2 - Adding a game
-This option allows you to enter a new game into the database. 
-1. Select the 'Add game' option
-
-You should be presented with the following screen
-![first page of add title](assets/title_add_first_page.JPG)
-
-2. Enter the name of your game.
-
-3. Genre, Platform and Completion Status have similar menu layouts. This will be a menu that can be navigated using the up/down arrow keys. Select using the Enter key.
-
-### 3 - Search games
-This option will allows you to search and return the list of games using a selected attributes.
-
-The you will be presented with the following menu. 
-
-![search menu](assets/searched_menu.JPG)
-
-1. To display all games in the database, select the 'list all games'. All games will print onto the terminal. 
-
-This will return you to the main menu.
-
-2. If you want to search for specfic games in your database or list by attributes, select 'search by attribute'
-
-You'll be presented with the following options: 
-
-![search attribute menu](assets/search_by_attribute.JPG)
-
-If you choose to search by Title, you'll be presented with a screen where you'll need to enter the name of the game you're looking for. 
-
-The other options in the search by attribute menu is guided by prompts. Use the up/down arrow keys to navigate and the enter key to select the option.
-
-If the game exists in the in the database, it will print to your screen. If the game(s) doesn't exist in your database it will return 'no results found!'
-
-### 4 - Edit game
-This option allows you edit an attribute of your game in the database. 
-
-1. Select a game you want to edit. 
-2. Select the attribute you watn to edit.
-3. You'll be prompted to confirm if you want to save the changes. 
-4. It will notify you that the game's attribute has been changed successfully. 
-
-### 5 - Delete game
-This option allows you to delete a game from your database.
-
-1. Select the game you want to delete
-2. You'll be prompted to confirm if you want to delete the file. 
-3. If yes is selected, the game will be deleted.
-
-
-## Adding a new or Displaying all games outside of the program.
-
-This feature allows you to delete games or display all games in the database outside the program. 
-
-1. To display all games outside the program enter the following in terminal:
-
-````
-$ ruby app.rb display
-````
-
-2. If you want to add a game to the database outside the program, enter the following in terminal:
-
-````
-$ruby app.rb add <name of game>
-````
-Follow the prompts. 
