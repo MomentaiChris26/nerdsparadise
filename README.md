@@ -22,7 +22,7 @@ The Ruby gems 'tty-prompt', 'tty-spinner', 'terminal-table', 'colorize' and 'tty
 
 Minimum system requirements: Mac, Windows or Linux
 
-## Instruction for use
+## Instruction for initial install
 
 Download source code and save to preferred directory
 
@@ -50,3 +50,61 @@ Priorities and tasks were managed using a trello board. It allowed me to itemise
 ![trello board screenshot](assets/np_flow_chart.jpeg)
 
 
+# Implementation Plan
+
+There are 5 features in the application that can be utilise by the user. The implementation process for each are as followed and were implemented based on priority.
+
+The features that were added are:
+
+1. Add game
+2. Search game
+3. Edit game
+4. Delete game
+5. Search for a game (to play)
+
+Below details a thorough walkthrough for the implementation for each feature.
+
+### Add game
+'Add game' is the most important feature in the system as it allowed the user to enter in the game data into the database. 
+
+The 'add game' feature utilises multiple complex methods that takes the user's input, stores into a local variable and pushes those variables into an instance. Finally the instance is stored into a global array where the other methods and modules can access and manipulate the data.
+
+below is the checklist for the implementation of add game feature. 
+
+![add game checklist](assets/add_game_feature_checklist.jpg)
+
+### Search game
+'Search game' feature was the most complex feature as it was a standalone menu.
+
+This menu was broken up into the following sub-features:
+
+1. List all games: allows the user to print all the individual games in the database onto the terminal. This would use the .each method which iterates through each stored instance in the global array, stored it again into a temporary array. This temporary array is then used by the gem 'terminal-table' which formats it into a readable format.
+
+2. Search by attribute: Allows the user search by attribute and returns all results that match that attribute. To accomplish this, .each method will iterate through each of the instances, and when it finds a match, stores it into a temporary array, which then gets printed out by the end of the method. 
+
+![search game checklist](assets/search_game_feature_checklist.jpg)
+
+
+### Edit game
+'Edit game' feature allows the user to search through their database and gives the ability to edit a chosen attribute. 
+
+The chosen attribute will then be changed in the instance and then updated in the global array.
+
+The edit game feature uses elements from the search game feature. It will first list all the games in the database by name, and allows the user to pick it to edit. 
+
+Once the user picks a one of the games, it will present the user with a choice for which attribute to edit. This will be accomplished by iterating through the global array, matching the name of the game and editing the chosen attribute. The attribute is updated and re-stored into the global array.
+
+### Delete game
+'delete game' feature allows the user to delete a game from their database. 
+
+This will be accomplished by accessing the global array containing all the games in the database. Then to delete the game, the user is presented a list of games using the name, and the user selects the game they want to delete. The input is then translated into an index of the global array and the program will delete that stored data relating to that index. 
+
+There will also need to be a prompt that warns the user that the data is going to be deleted. This is accomplished using tty-prompt.
+
+### Search for a game
+'Search for a game' feature allows the user to select an incomplete game and print it to the terminal. 
+
+This is accomplished by extracting the games from the global array with the attribute "incomplete", storing them into a temporary array and using the .sample method to select the game. Finally, it will print the chosen game into the terminal. 
+
+
+# Help
