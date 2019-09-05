@@ -8,9 +8,16 @@ require 'tty-spinner'
 
 # Adds methods for the menu selection in the main menu
 module Selection
+
+
+
   def self.add_game(games)
     system 'clear'
     name = Ancillaries.prompt.ask('What is the title of your game?', required: true)
+    duplicate = Ancillaries.duplicate_game_search(games,name)
+    if duplicate == "break"
+      return
+    end 
     genre = genre_options('Select a genre')
     platform = console_options('Select a platform')
     completed = completed_menu
@@ -286,6 +293,16 @@ module Ancillaries
     sleep(1.5) # Perform task
     spinner.stop(stop_text) # Stop animation
   end
+
+  def self.duplicate_game_search(games,title)
+    games.each do |game|
+      if game.title.downcase == title.downcase 
+        puts "Game already exist!".colorize(:yellow)
+        return "break"
+      end
+    end
+  end
+
 end
 
 module Open_saved_data
