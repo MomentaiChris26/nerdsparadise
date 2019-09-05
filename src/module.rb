@@ -243,6 +243,10 @@ module TextHolder
     'Are you sure you want to delete this game?'.colorize(:yellow)
   end
 
+  def self.selection_menu
+    'Make your selection'.colorize(:yellow)
+  end
+
   def self.consoles
     %w[Xbox PlayStation Switch PC Others]
   end
