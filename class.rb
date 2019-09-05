@@ -42,7 +42,7 @@ class Database
       puts 'what attribute of the data would you like to search for?'
       choice = Ancillaries.prompt.select('Make your selection', Ancillaries.number_menu)
       all_games = []
-      searched = Search_feature.search_by_attribute(games,choice)
+      searched = SearchFeature.search_by_attribute(games, choice)
       games.each do |game|
         case choice
         when 1
@@ -62,5 +62,4 @@ class Database
       end
     end
   end
-  
 end
