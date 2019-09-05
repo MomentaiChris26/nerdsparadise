@@ -6,7 +6,7 @@ require_relative 'class.rb'
 system 'clear'
 
 stored_games = []
-DATA = 'game_database/saved_data.csv'
+DATA = 'saved_data.csv'
 OpenSavedData.application_open(stored_games, DATA)
 
 if ARGV[0] == 'display'

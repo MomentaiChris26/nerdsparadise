@@ -2,7 +2,10 @@
 chmod +x ./build.sh
 # copy across files to distribution directory
 mkdir dist
-cp ./app.rb ./dist
+cp ./src/app.rb ./dist
+cp ./src/class.rb ./dist
+cp ./src/module.rb ./dist
+cp ./src/saved_data.csv ./dist
 # install all gems
 gem install colorize 
 gem install tty-prompt
