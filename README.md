@@ -48,5 +48,3 @@ Priorities and tasks were managed using a trello board. It allowed me to itemise
 
 
 
-
-
