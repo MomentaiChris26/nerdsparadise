@@ -155,7 +155,7 @@ module Selection
         case choice
         when 1
           puts 'Enter a new title'
-          new_title = gets.chomp
+          new_title = STDIN.gets.chomp
           answer = Selection.confirm_prompt(TextHolder.make_changes)
           if answer == 'Yes'
             games[index].title = new_title
@@ -293,7 +293,7 @@ module SearchFeature
     case choice
     when 1
       puts 'what game are you looking for?'
-      gets.chomp.downcase
+      STDIN.gets.chomp.downcase
     when 2 then Selection.genre_options('Select a genre')
     when 3 then Selection.console_options('Select a platform')
     when 4 then Selection.completed_menu
