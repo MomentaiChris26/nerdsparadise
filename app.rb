@@ -21,7 +21,7 @@ end
 
 puts TTY::Font.new(:doom).write("NERD'S PARADISE")
 
-choices = { 'Select game to play' => 1,
+choices = { 'Select a game to play' => 1,
             'Add game' => 2,
             'Search games' => 3,
             'Edit game' => 4,
