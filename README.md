@@ -264,9 +264,31 @@ The two features that were tested was the add game feature and delete game featu
 
 In order to test these features, a dummy database (global array) was created in the test.rb file and the add_game and delete_game methods were called from the module.rb file. 
 
-A test method was written for each to test if the add_game feature worked. The expected result if the test passed was if the empty dummy database contained data after it was passed through the the add_game method.
+A test case was written for each to test if the add_game feature worked. The expected result if the test passed was if the empty dummy database contained data after it was passed through the the add_game method.
+
+````ruby
+def test_add_game(array_test)
+  if array_test.length == 1
+    # this should push an item into the array if it works correctly.
+    puts 'Test has passed'.colorize(:green)
+  else
+    puts 'Test has failed'.colorize(:red)
+  end
+end
+````
 
 Finally, using the same dummy database with an single element created using the add_game method, tested the ability to delete data from the database. The delete_game method was called and the dummy database passed through the method. If the test was sucessful, the dummy database would contain no data. 
+
+````ruby
+def test_delete_game(array_test)
+  if array_test.empty?
+    # This should remove the data from the array.
+    puts 'Test has passed'.colorize(:green)
+  else
+    puts 'Test has failed'.colorize(:red)
+  end
+end
+````
 
 Here were the results. 
 
