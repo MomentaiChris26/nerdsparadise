@@ -12,10 +12,10 @@ OpenSavedData.application_open(stored_games, DATA)
 if ARGV[0] == 'display'
   Database.display_all_games(stored_games)
   ExitAndStore.argv_exit(stored_games)
-elsif ARGV[0] == 'delete'
+elsif ARGV[0] == 'add'
   _first_arg, *the_rest = ARGV
-  game_to_be_deleted = the_rest.join(' ')
-  Selection.argv_delete(stored_games, game_to_be_deleted)
+  game_to_be_added = the_rest.join(' ')
+  Selection.argv_add(stored_games, game_to_be_added)
   ExitAndStore.argv_exit(stored_games)
 end
 

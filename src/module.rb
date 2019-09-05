@@ -222,35 +222,18 @@ module Selection
     end
     end
 
-  def self.argv_delete(games, argv_data)
-    if games.empty?
-      Ancillaries.no_game
-    else
-      all_games = []
-      games.each do |game|
-        indvidual_game_data = [game.title]
-        all_games << indvidual_game_data
-      end
-
-      game_to_delete = argv_data.to_s
-      games.each_with_index do |game, index|
-        next unless game.title.downcase == game_to_delete
-
-        answer = Selection.confirm_prompt(TextHolder.confirm_delete)
-        case answer
-        when 'Yes'
-          games.delete_at(games.index(games[index]))
-          Ancillaries.spinner('Deleting game from database', 'Deleted!')
-          puts 'Game successfully deleted!'.colorize(:green)
-          break
-        when 'No'
-          TextHolder.no_changes
-          break
-        end
-      end
-      TextHolder.not_found
+  def self.argv_add(games, argv_data)
+      name = argv_data.to_s
+      duplicate = Ancillaries.duplicate_game_search(games, name)
+      return if duplicate == 'break'
+  
+      genre = Selection.genre_options('Select a genre')
+      platform = Selection.console_options('Select a platform')
+      completed = Selection.completed_menu
+      games << Database.new(name, genre, platform, completed)
+      system 'clear'
+      puts "#{name} has been added to your database!".colorize(:green)
     end
-  end
 end
 
 # Holds callable text items
