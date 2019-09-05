@@ -45,6 +45,8 @@ Priorities and tasks were managed using a trello board. It allowed me to itemise
 
 ![trello board screenshot](assets/trello_board_screenshot.jpg)
 
+## Flow Chart
 
+![trello board screenshot](assets/np_flow_chart.jpeg)
 
 
