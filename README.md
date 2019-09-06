@@ -76,7 +76,6 @@ This feature used similar iterations, and conditional statements to determine th
 
 To run Nerd's Paradise, the user needs:
 
-
 The Ruby gems 'tty-prompt', 'tty-spinner', 'terminal-table', 'colorize' and 'tty-font' ' are required to run Nerd's Paradise
 
 ## Instruction for install
@@ -109,8 +108,6 @@ Priorities and tasks were managed using a trello board. It allowed me to itemise
 Below is a flowchart detailing the processes and its related control flows.
 
 ![control flow chart](assets/chris-tri-T1A2-5-control-flow-diagram.jpeg)
-
-
 
 
 ## User Interaction and Experience
@@ -280,8 +277,9 @@ The two features that were tested was the add game feature and delete game featu
 
 In order to test these features, a dummy database (global array) was created in the test.rb file and the add_game and delete_game methods were called from the module.rb file. 
 
-A test case was written for each to test if the add_game feature worked. The expected result if the test passed was if the empty dummy database contained data after it was passed through the the add_game method.
+A test case was written to test if the add_game feature worked. The expected result, if the test passed was that the empty dummy database contained data after it was passed through the the add_game method.
 
+The test method used:
 ````ruby
 def test_add_game(array_test)
   if array_test.length == 1
@@ -292,8 +290,10 @@ def test_add_game(array_test)
   end
 end
 ````
-Finally, using the same dummy database with a single element created using the add_game method, tested the ability to delete data from the database. The delete_game method was called and the dummy database passed through the method. If the test was successful, the dummy database would contain no data.
 
+The second test will test the delete game feature. using the same dummy database with a single element created using the add_game method, the delete_game method was called and the dummy database passed through the a test case. If the test was successful, the dummy database would contain no data.
+
+The test method used:
 ````ruby
 def test_delete_game(array_test)
   if array_test.empty?
@@ -310,7 +310,6 @@ Here were the results.
 ![add game test passed](assets/chris-tri-T1A2-12-add-game-test-passed.JPG)
 
 ![delete game test passed](assets/chris-tri-T1A2-12-delete-game-test-passed.JPG)
-
 
 Both tests passed, meaning both features were working as intended. 
 
@@ -355,7 +354,7 @@ If the application runs correctly, you'll see the following screen will appear o
 
 ![main menu](assets/chris-tri-T1A2-4-main-menu.jpg)
 
-## Menu options
+## Available features
 
 ### Select a game to play 
 Randomly selects a video game with an incomplete status in their database and returns the game name for the user to pick and play.
@@ -372,3 +371,18 @@ Allows the user to select a game to edit the attribute of the game, which will u
 ### Delete game 
 Gives the ability for the user to delete a stored game in the database.
 
+### Adding a game outside the application
+
+To add a new game to the database without accessing the application, type the following commands in the terminal. 
+
+````
+$ruby app.rb add <name of game>
+````
+
+### Displaying all games in the database outside the applcation
+
+To view all the games in the database, use the following command in terminal.
+
+````
+$ruby app.rb add display
+````
