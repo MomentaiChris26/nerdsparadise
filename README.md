@@ -5,7 +5,7 @@
 
 The purpose of Nerd's Paradise is to solves the problem of keeping track of all the games inside a user’s personal video game collection. 
 
-The reason why I developed Nerd's paradise is because, as a game collector myself, I have a large game collection and keeping track of all of them can be frustrating. This application fixes that by giving the user the ability to store their personal video game collection into a local database where they can retrieve or modify the data.
+The reason why I developed Nerd's Paradise is because, as a game collector myself, I have a large game collection and keeping track of all of them can be frustrating. This application fixes that by giving the user the ability to store their personal video game collection into a local database where they can retrieve or modify the data.
 
 The application achieves this by storing data using various ruby functionalities including classes, methods and arrays. The application temporarily stores the data into a global array in the main application file where the user can manipulate the data. When the user exits the application, the data is converted into strings and is stored into a csv. When the user opens the application, it will retrieve the data from the the local csv.
 
@@ -25,7 +25,7 @@ The application uses a simple menu type interface, where they interact by select
 
 ## Features
 
-Currently, this version of Nerd's paradise contains 5 features. 
+Currently, this version of Nerd's Paradise contains 5 features. 
 
 
 ### Select a game to play 
@@ -74,10 +74,10 @@ This feature used similar iterations, and conditional statements to determine th
 
 ## Dependencies
 
-To run Nerd's paradise, the user needs:
+To run Nerd's Paradise, the user needs:
 
 
-The Ruby gems 'tty-prompt', 'tty-spinner', 'terminal-table', 'colorize' and 'tty-font' ' are required to run Nerd's paradise
+The Ruby gems 'tty-prompt', 'tty-spinner', 'terminal-table', 'colorize' and 'tty-font' ' are required to run Nerd's Paradise
 
 ## Instruction for install
 
