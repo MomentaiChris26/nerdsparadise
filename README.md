@@ -1,43 +1,48 @@
 # NERD'S PARADISE
 
 
-## Statement of Purpose and Scope
+## Purpose and Scope
 
-The purpose of Nerd's Paradise is to solves the problem of keeping track of all the games inside a user’s video game collection. 
+The purpose of Nerd's Paradise is to solves the problem of keeping track of all the games inside a user’s personal video game collection. 
 
-The reason why I'm developing this application is because as a game collector myself, I have a large game collection and keeping track of all of them can be frustrating, especially if I've already played them. This application will fix that by giving the user the ability to store their game collection into a local database where they can retrieve or modify the data.
+The reason why I developed Nerd's paradise is because, as a game collector myself, I have a large game collection and keeping track of all of them can be frustrating. This application fixes that by giving the user the ability to store their personal video game collection into a local database where they can retrieve or modify the data.
 
-The application achieves this by storing data into an instance using ruby classes then storing them into a global array. The data can be manipulated from the global array by accessing them with methods. The data is stored into a csv when the user exits the program. When the user re-opens the application, the program will retrieve that data from the the local csv.
+The application achieves this by storing data using various ruby functionalities including classes, methods and arrays. The application temporarily stores the data into a global array in the main application file where the user can manipulate the data. When the user exits the application, the data is converted into strings and is stored into a csv. When the user opens the application, it will retrieve the data from the the local csv.
 
-One major issue was storing the data into a local csv file. If the csv file is deleted or moved to a different location, the application can't retrieve the data and will instead create a new file inside the local drive. There is a begin and rescue on this to avoid the application from crashing if the file was to be deleted or moved. However, users would lose their database if this was to occur. At the current version, there hasn't been a fix to solve this issue. However, it’s possible that future updates to the application will solve this.
+Note: When the documentation mentions database, it's referring to the local csv file.
 
-The local database is a csv file that is located within the same file as the source files.
+One major ongoing issue was dealing with the local csv file. If the file is deleted or moved to a different location, the application can't retrieve the data and will instead create a new file inside the local drive. There is a begin and rescue on this to avoid the application from crashing if the file was to be deleted or moved. As all the user's data is stored in the old file, the application can't retrieve the data, and therefore there won't be any data when the application loads. 
+
+As long as the user doesn't delete or move the csv file, the application will continue to run correctly. 
+
+At the current version, there hasn't been a fix yet. However, a future update will solve this issue.
 
 
 ### Target Audience
 Nerd's Paradise is designed for video game collectors. 
 
-The audience interacts with the application through menus. The menu is easy to follow and the user can do what they want to achieve by selecting the relevant menu item.
+The application uses a simple menu type interface, where they interact by selecting the function they want to run. Detailed instructions can be found in User Interaction and Experience section below. 
 
 ## Features
 
+Currently, this version of Nerd's paradise contains 5 features. 
+
+
 ### Select a game to play 
 
-Randomly selects a video game with an incompleted status in their database and returns the game name for the user to pick and play.
+Randomly selects a video game with an "incomplete" status in their database and prints the name onto the terminal screen.
 
-This feature utilises a conditional structure to determine if a game in the global array has an incomplete status. It then gets stored into a local array inside the method where a sample method selects a random game at random and prints the name onto the terminal. 
+This feature utilises a conditional statement to determine if a game in the global array has an "incomplete" status. It gets stored into a local array inside the app.rb where a sample method selects a random game and prints the name onto the terminal.
 
-A possible error that could occur is when there are no games with a incomplete status or when there are no games in the database. To handle this error, a method is called to print a message to the user when there are no games in the database, or if all the games are completed.
+
 
 ### Add game
 
 Allows user to enter the details of their video game to be saved into the database.
 
-This feature utilises inputs from the user using tty-prompt gem. Their inputs are stored into a local variable which will be used to store an instance. The initialize method in the class is called and uses the local variables as arguments to store the instance. The instance is then pushed into a global array where the data can be manipulated.
+This feature utilises inputs from the user using the tty-prompt gem. Their inputs are stored into a local variable. The initialize method in the class is called and uses the local variables as arguments to store the instance. The instance is pushed into a global array where the data can be manipulated.
 
 Additionally, if the user enters a game into the database that already exists, a conditional statement runs and exits the add game feature back to main menu. It also prompts the user that the game already exists in their database.
-
-An error that was handled was if the user enters something that could not be accepted by the the instance (e.g. boolean values for completed). This is accomplished by creating select menus using tty-prompt, giving users options to choose from rather than entering their own, except for the game title.
 
 
 ### Search games
@@ -46,20 +51,19 @@ Presents various options for the user to search their database, including the ab
 
 The search feature uses conditional statements and methods to retrieve the game from the database. 
 
-The first item in the sub menu is list all games, which iterates through the global array, stores the data into local array and then printed into a readable format using the terminal table gem. 
+The search menu is split into a sub-menu.
 
-The second item in the sub menu is search by attribute. This was achieved by iterating through the global array, and returning a list of the games title into a local array. A prompt menu allows the user to select the game they want to edit and then returns the index of the chosen game in the global array. Finally, the user selects the attribute they want to edit, which replaces the attribute of the matched index. 
+The first item in the sub menu is 'list all games', which iterates through the global array, stores the data into local array and then printed into a readable format using the 'terminal-table' gem. 
 
-One error that occurred was if there was no matching results which caused the application to break. This was handled by implementing a method containing a conditional statement that determines if no results were found, returns a message to the user, and loops them back to the main menu.
+The search by attribute displays all games in the database using specific criteria. 
+The application iterates through database, returns a list of games titles, and a prompt menu allows the user to either search using the game title or a specific attribute. once the user selects the desired game, a method iterates through the database again, returns all the attributes related to the selected game.
+
 
 ### Edit game
 
 Allows the user to select a game to edit the attribute of the game, which will update in the database. 
 
-This feature is similar to the searched game feature, which utilised a similar method of iterations, and loops to return all the games from the database for the user to choose and edit. To allow the user to make edits to the database, local variables were used to store user inputs on attributes that the user wanted. This also used indexes in the global array to ensure the right data was changed.
-
-The possible error that could have occurred was if the user entered an argument that was not correct (e.g. entering a string when it should be a boolean). To handle this, the options were set out in a predetermined menu that allowed a user to select the option rather than having them manually enter it.
-
+This feature is similar to the searched game feature, which utilised a similar method of iterations to return all the games from the database for the user to choose and edit. To allow the user to make edits to the database, local variables were used to store user inputs on attributes that the user wanted.
 
 ### Delete game 
 
@@ -67,13 +71,13 @@ Gives the ability for the user to delete a stored game in the database.
 
 This feature used similar iterations, and conditional statements to determine the game the user wanted to delete. It stores all games into a local array where the user can select the game they want to delete. This returns an index of where the game sits in the global array and deletes that index. 
 
-In order to avoid the user from trying to search for a game that may not exist in the database, a method was used where the title of the games were retrieved and presented in a menu. The user then selects the game they want to delete.
 
 ## Dependencies
 
-The Ruby gems 'tty-prompt', 'tty-spinner', 'terminal-table', 'colorize' and 'tty-font' ' are required to run Nerd's paradise
+To run Nerd's paradise, the user needs:
 
-Minimum system requirements: Mac, Windows or Linux
+
+The Ruby gems 'tty-prompt', 'tty-spinner', 'terminal-table', 'colorize' and 'tty-font' ' are required to run Nerd's paradise
 
 ## Instruction for install
 
@@ -84,7 +88,7 @@ In terminal, install the pre-required dependencies with the following code:
 $ bash build.sh
 ````
 
-To initialise program:
+To run application:
 ````
 $ ruby app.rb
 ````
@@ -130,6 +134,7 @@ This option prints a random game that has a status incomplete to terminal for th
 
 To handle the error where there is no games in the database or all games are marked completed, it prints a message to the user notifying them of that issue. 
 
+
 ### 2 - Adding a game
 This option allows the user to enter a new game into the database. 
 1. Select the 'Add game' option
@@ -140,7 +145,7 @@ This option allows the user to enter a new game into the database.
 
 3. Genre, Platform and Completion Status have similar menu layouts. This will be a menu that can be navigated using the up/down arrow keys. Select using the Enter key.
 
-The program presents the user with pre-determined options, hence avoiding the possibility of the user entering data that could break the application.
+An error that occurred was if the user enters something that could not be accepted by the the instance (e.g. strings instead of boolean values). This is accomplished by presenting the user with predetermined options, hence avoiding the possibility of the user entering data that could break the application.
 
 ### 3 - Search games
 This option will allow the user to search and return the list of games using a selected criteria.
@@ -161,6 +166,8 @@ The other options in the search by attribute menu is guided by prompts. Use the 
 
 If the game exists in the database, it will print on the screen. If the game(s) doesn't exist in the database it will return 'no results found!'
 
+One error that occurred, was the application would break if there was no results found from the search. This was handled by implementing a method containing a conditional statement that determines if no results were found, prompts the user, and loops them back to the main menu.
+
 ### 4 - Edit game
 This option allows the user to edit an attribute of their game in the database. 
 
@@ -169,6 +176,8 @@ This option allows the user to edit an attribute of their game in the database.
 3. They'll be prompted to confirm if they want to save the changes. 
 4. It will notify them that the game's attribute has been changed successfully. 
 
+The possible error that could have occurred was if the user entered an argument that was not correct (e.g. entering a string when it should be a boolean). To handle this,the options were set out in a predetermined menu that allowed a user to select the option rather than having them manually enter it.
+
 ### 5 - Delete game
 This option allows the user to delete a game from the database.
 
@@ -176,17 +185,19 @@ This option allows the user to delete a game from the database.
 2. They'll be prompted to confirm if they want to delete the file. 
 3. If yes is selected, the game will be deleted.
 
-## Adding a new game or displaying all games outside of the program.
+In order to avoid the user from trying to search for a game that may not exist in the database, a method was used where the title of the games were retrieved and presented in a menu. The user then selects the game they want to delete.
 
-This feature allows a user to add a game or display all games in the database outside the program.
+## Adding a new game or displaying all games outside of the application.
 
-1. To display all games outside the program enter the following in terminal:
+This feature allows a user to add a game or display all games in the database outside the application.
+
+1. To display all games outside the application enter the following in terminal:
 
 ````
 $ ruby app.rb display
 ````
 
-2. If they want to add a game to the database outside the program, enter the following in terminal:
+2. If they want to add a game to the database outside the application, enter the following in terminal:
 
 ````
 $ruby app.rb add <name of game>
@@ -242,9 +253,10 @@ Once the user picks one of the games, it will present the user with a choice for
 ### Delete game
 'Delete game' feature allows the user to delete a game from their database. 
 
-This will be accomplished by accessing the global array containing all the games in the database. Then to delete the game, the user is presented a list of games using the name, and the user selects the game they want to delete. The input is then translated into an index of the global array and the program will delete that stored data relating to that index. 
+This will be accomplished by accessing the global array containing all the games in the database. Then to delete the game, the user is presented a list of games using the name, and the user selects the game they want to delete. The input is then translated into an index of the global array and the application will delete that stored data relating to that index. 
 
 A prompt is needed to warn the user that the data is going to be deleted. This is accomplished using tty-prompt.
+
 
 ![delete game checklist](assets/chris-tri-T1A2-6-delete-game-feature-checklist.JPG)
 
@@ -253,7 +265,7 @@ A prompt is needed to warn the user that the data is going to be deleted. This i
 
 This is accomplished by extracting the games from the global array with the attribute "incomplete", storing them into a temporary array and using the .sample method to select the game. Finally, it will print the chosen game into the terminal. 
 
-![search for a  game checklist](assets/chris-tri-T1A2-6-select-a-game-feature.JPG)
+![search for a game checklist](assets/chris-tri-T1A2-6-select-a-game-feature.JPG)
 
 
 # Testing
@@ -276,8 +288,7 @@ def test_add_game(array_test)
   end
 end
 ````
-
-Finally, using the same dummy database with an single element created using the add_game method, tested the ability to delete data from the database. The delete_game method was called and the dummy database passed through the method. If the test was sucessful, the dummy database would contain no data. 
+Finally, using the same dummy database with a single element created using the add_game method, tested the ability to delete data from the database. The delete_game method was called and the dummy database passed through the method. If the test was successful, the dummy database would contain no data.
 
 ````ruby
 def test_delete_game(array_test)
@@ -303,20 +314,30 @@ Both tests passed, meaning both features were working as intended.
 
 This section wil explain how to install the necessary dependencies and how to use the application itself.
 
+## Minimum requirements
+* PC, MAC or Linux system. 
+
+* System terminal to run and install the application. 
+
+* You'll need ruby 2.5.1 to run the application.
+
+## Clone the repository
+
+````
+git clone https://github.com/MomentaiChris26/nerdsparadise.git
+
+````
+
 ## Installing necessary dependencies
-To ensure your machine has the necessary dependencies to run the application, you'll need to run the build.sh in your terminal. Use the following command in terminal to install the necessary dependencies. 
+To ensure your machine has the necessary dependencies to run the application, you'll need to run the build.sh in your terminal. Use the following command in the terminal to install the necessary dependencies.
 
 ````
 $ bash build.sh
 ````
 
-## Minimum requirements
-PC, MAC or Linux system. 
-System terminal to run and install the application. 
-Ruby 2.5.1
-
 ## Running the application
-Firstly, go to the dist folder using the following command in terminal where the application is located:
+Firstly, go to the dist folder using the following command in the terminal where the application is located:
+
 ````
 cd dist
 ````
@@ -325,18 +346,21 @@ To run the application, in your terminal, type:
 ````
 $ ruby app.rb
 ````
-If the application runs correctly, you'll see the following screen appear on your terminal.
+
+If the application runs correctly, you'll see the following screen will appear on your terminal.
 
 ![main menu](assets/chris-tri-T1A2-4-main-menu.jpg)
 
+## Menu options
+
 ### Select a game to play 
-Randomly selects a video game with an incompleted status in their database and returns the game name for the user to pick and play.
+Randomly selects a video game with an incomplete status in their database and returns the game name for the user to pick and play.
 
 ### Add game
 Allows user to enter the details of their video game to be saved into the database.
 
 ### Search game
-'Search game' feature was the most complex feature as it was a standalone menu.
+Allows the user to search for a game in their database using specific criterias.
 
 ### Edit game
 Allows the user to select a game to edit the attribute of the game, which will update in the database.
