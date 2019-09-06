@@ -1,5 +1,6 @@
 # NERD'S PARADISE
 
+[Github link](https://github.com/MomentaiChris26/nerdsparadise)
 
 ## Purpose and Scope
 
@@ -33,7 +34,6 @@ Currently, this version of Nerd's Paradise contains 5 features.
 Randomly selects a video game with an "incomplete" status in their database and prints the name onto the terminal screen.
 
 This feature utilises a conditional statement to determine if a game in the global array has an "incomplete" status. It gets stored into a local array inside the app.rb where a sample method selects a random game and prints the name onto the terminal.
-
 
 
 ### Add game
@@ -109,12 +109,11 @@ Below is a flowchart detailing the processes and its related control flows.
 
 ![control flow chart](assets/chris-tri-T1A2-5-control-flow-diagram.jpeg)
 
-
 ## User Interaction and Experience
 
-Once the user installs the required dependencies, they can run the application using the following in terminal:
+Once the user installs the required dependencies, they can run the application using the following in the terminal:
 
-Firstly,they will go to the dist folder using the following command in terminal where the application is located:
+Firstly,they will go to the dist folder using the following command in the terminal where the application is located:
 ````
 $ cd dist
 ````
@@ -140,13 +139,13 @@ To handle the error where there is no games in the database or all games are mar
 This option allows the user to enter a new game into the database. 
 1. Select the 'Add game' option
 
-2. The user will recieve a prompt asking to confirm they want to add a game.
+2. The user will receive  a prompt asking to confirm they want to add a game.
 
 3. Enter the name of their game.
 
 3. Genre, Platform and Completion Status have similar menu layouts. This will be a menu that can be navigated using the up/down arrow keys. Select using the Enter key.
 
-An error that occurred was if the user enters something that could not be accepted by the the instance (e.g. strings instead of boolean values). This is accomplished by presenting the user with predetermined options, hence avoiding the possibility of the user entering data that could break the application.
+An error that occurred was if the user enters something that could not be accepted by the instance (e.g. strings instead of boolean values). This is accomplished by presenting the user with predetermined options, hence avoiding the possibility of the user entering data that could break the application.
 
 ### 3 - Search games
 This option will allow the user to search and return the list of games using a selected criteria.
@@ -155,7 +154,7 @@ This option will allow the user to search and return the list of games using a s
 
 1. To display all games in the database, select the 'list all games'. Games will print onto the terminal. 
 
-2. If the user want to search for specific games in the database or list by attributes, they can use the 'search by attribute' feature.
+2. If the user wants to search for specific games in the database or list by attributes, they can use the 'search by attribute' feature.
 
 They'll be presented with the following options: 
 
@@ -167,7 +166,7 @@ The other options in the search by attribute menu is guided by prompts. Use the 
 
 If the game exists in the database, it will print on the screen. If the game(s) doesn't exist in the database it will return 'no results found!'
 
-One error that occurred, was the application would break if there was no results found from the search. This was handled by implementing a method containing a conditional statement that determines if no results were found, prompts the user, and loops them back to the main menu.
+One error that occurred, was the application would break if there were no results found from the search. This was handled by implementing a method containing a conditional statement that determines if no results were found, prompts the user, and loops them back to the main menu.
 
 ### 4 - Edit game
 This option allows the user to edit an attribute of their game in the database. 
@@ -192,13 +191,13 @@ In order to avoid the user from trying to search for a game that may not exist i
 
 This feature allows a user to add a game or display all games in the database outside the application.
 
-1. To display all games outside the application enter the following in terminal:
+1. To display all games outside the application enter the following in the terminal:
 
 ````
 $ ruby app.rb display
 ````
 
-2. If they want to add a game to the database outside the application, enter the following in terminal:
+2. If they want to add a game to the database outside the application, enter the following in the terminal:
 
 ````
 $ruby app.rb add <name of game>
@@ -207,7 +206,7 @@ $ruby app.rb add <name of game>
 
 # Implementation Plan
 
-There are 5 features in the application that can be utilise by the user. The implementation process for each are as follows and were implemented based on priority.
+There are 5 features in the application that can be utilised by the user. The implementation process for each are as follows and were implemented based on priority.
 
 The features that were added are:
 
@@ -224,7 +223,7 @@ Below details a thorough walkthrough for the implementation for each feature.
 
 The 'add game' feature utilises multiple complex methods that takes the user's input, stores into a local variable and pushes those variables into an instance. Finally, the instance is stored into a global array where the other methods and modules can access and manipulate the data.
 
-Below is the checklist for the implementation of add game feature. 
+Below is a checklist for the implementation of add game feature. 
 
 ![add game checklist](assets/chris-tri-T1A2-6-add-game-feature-checklist.JPG)
 
@@ -291,7 +290,7 @@ def test_add_game(array_test)
 end
 ````
 
-The second test will test the delete game feature. using the same dummy database with a single element created using the add_game method, the delete_game method was called and the dummy database passed through the a test case. If the test was successful, the dummy database would contain no data.
+The second test will test the delete game feature. using the same dummy database with a single element created using the add_game method, the delete_game method was called and the dummy database passed through the test case. If the test was successful, the dummy database would contain no data.
 
 The test method used:
 ````ruby
@@ -315,7 +314,7 @@ Both tests passed, meaning both features were working as intended.
 
 # Help
 
-This section wil explain how to install the necessary dependencies and how to use the application itself.
+This section will explain how to install the necessary dependencies and how to use the application itself.
 
 ## Minimum requirements
 * PC, MAC or Linux system. 
@@ -327,7 +326,7 @@ This section wil explain how to install the necessary dependencies and how to us
 ## Clone the repository
 
 ````
-git clone https://github.com/MomentaiChris26/nerdsparadise.git
+git clone git@github.com:MomentaiChris26/nerdsparadise.git
 
 ````
 
@@ -363,7 +362,7 @@ Randomly selects a video game with an incomplete status in their database and re
 Allows user to enter the details of their video game to be saved into the database.
 
 ### Search game
-Allows the user to search for a game in their database using specific criterias.
+Allows the user to search for a game in their database using specific criteria.
 
 ### Edit game
 Allows the user to select a game to edit the attribute of the game, which will update in the database.
@@ -379,9 +378,9 @@ To add a new game to the database without accessing the application, type the fo
 $ruby app.rb add <name of game>
 ````
 
-### Displaying all games in the database outside the applcation
+### Displaying all games in the database outside the application
 
-To view all the games in the database, use the following command in terminal.
+To view all the games in the database, use the following command in the terminal.
 
 ````
 $ruby app.rb add display

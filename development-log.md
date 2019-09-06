@@ -60,3 +60,6 @@ Regards,
 Christopher Tri
 
 [sent email 04/09/2019 - PDF copy](assets/chris-tri-T1A2-6-status-update-04-09-2019.pdf)
+
+
+[Github link](https://github.com/MomentaiChris26/nerdsparadise)
