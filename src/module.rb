@@ -10,11 +10,13 @@ require 'tty-spinner'
 module Selection
   def self.add_game(games)
     system 'clear'
-    confirm_add =  Ancillaries.prompt.select('Do you want to add a new game?',%w[Yes No])
-    return if confirm_add == "No"
+    confirm_add = Ancillaries.prompt.select('Do you want to add a new game?', %w[Yes No])
+    return if confirm_add == 'No'
+
     name = Ancillaries.prompt.ask('Title of your game?', required: true)
     duplicate = Ancillaries.duplicate_game_search(games, name)
     return if duplicate == 'break'
+
     genre = genre_options('Select a genre')
     platform = console_options('Select a platform')
     completed = completed_menu
@@ -224,16 +226,16 @@ module Selection
     end
 
   def self.argv_add(games, argv_data)
-      name = argv_data.to_s
-      duplicate = Ancillaries.duplicate_game_search(games, name)
-      return if duplicate == 'break'
-  
-      genre = Selection.genre_options('Select a genre')
-      platform = Selection.console_options('Select a platform')
-      completed = Selection.completed_menu
-      games << Database.new(name, genre, platform, completed)
-      system 'clear'
-      puts "#{name} has been added to your database!".colorize(:green)
+    name = argv_data.to_s
+    duplicate = Ancillaries.duplicate_game_search(games, name)
+    return if duplicate == 'break'
+
+    genre = Selection.genre_options('Select a genre')
+    platform = Selection.console_options('Select a platform')
+    completed = Selection.completed_menu
+    games << Database.new(name, genre, platform, completed)
+    system 'clear'
+    puts "#{name} has been added to your database!".colorize(:green)
     end
 end
 

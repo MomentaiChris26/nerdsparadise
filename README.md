@@ -102,11 +102,15 @@ Priorities and tasks were managed using a trello board. It allowed me to itemise
 
 ![trello board screenshot](assets/chris-tri-T1A2-14-project-mgnt-program.jpg)
 
+[Nerd's Paradise Trello Board](https://trello.com/b/qIS96rHR)
+
 ## Flow Chart
 
 Below is a flowchart detailing the processes and its related control flows.
 
 ![control flow chart](assets/chris-tri-T1A2-5-control-flow-diagram.jpeg)
+
+
 
 
 ## User Interaction and Experience
